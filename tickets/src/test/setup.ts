@@ -1,12 +1,12 @@
 import { MongoMemoryServer } from "mongodb-memory-server";
 import mongoose from "mongoose";
-import request from "supertest";
-import { app } from "../app";
 import jwt from "jsonwebtoken";
 
 declare global {
     var signin: () => string[];
 }
+
+jest.mock("../nats-wrapper");
 
 let mongo: any;
 beforeAll(async () => {
@@ -20,6 +20,7 @@ beforeAll(async () => {
 });
 
 beforeEach(async () => {
+    jest.clearAllMocks();
     const collections = await mongoose.connection.db.collections();
 
     for (let collection of collections) {
@@ -51,7 +52,7 @@ global.signin = () => {
     const sessionJSON = JSON.stringify(session);
 
     // Take JSON and encode it as base64
-    const base64 = Buffer.from(sessionJSON).toString('base64');
+    const base64 = Buffer.from(sessionJSON).toString("base64");
 
     // return a string thats the cookie with the encoded data
     return [`session=${base64}`];

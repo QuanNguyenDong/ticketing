@@ -1,0 +1,6 @@
+kubectl create secret generic jwt-secret --from-literal=JWT_KEY=secret
+
+install Ingress Nginx
+kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/controller-v1.8.1/deploy/static/provider/cloud/deploy.yaml
+
+kubectl port-forward nats-depl-697cc49bb4-zmcjk 4222:4222
