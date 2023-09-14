@@ -1,7 +1,7 @@
 import express, { Request, Response } from "express";
 import { body } from "express-validator";
 import jwt from "jsonwebtoken";
-import { validationRequest, BadRequestError } from "@dqticket/common";
+import { validateRequest, BadRequestError } from "@dqticket/common";
 
 import { User } from "../models/user";
 
@@ -16,7 +16,7 @@ router.post(
             .isLength({ min: 4, max: 20 })
             .withMessage("Password must be between 4 and 20 characters"),
     ],
-    validationRequest,
+    validateRequest,
     async (req: Request, res: Response) => {
         const { email, password } = req.body;
         const existingUser = await User.findOne({ email });

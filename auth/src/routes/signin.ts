@@ -1,7 +1,7 @@
 import express, { Request, Response } from "express";
 import { body } from "express-validator";
 import jwt from "jsonwebtoken";
-import { validationRequest, BadRequestError } from "@dqticket/common";
+import { validateRequest, BadRequestError } from "@dqticket/common";
 
 import { Password } from "../services/password";
 import { User } from "../models/user";
@@ -17,7 +17,7 @@ router.post(
             .notEmpty()
             .withMessage("You must supply a password"),
     ],
-    validationRequest,
+    validateRequest,
     async (req: Request, res: Response) => {
         const { email, password } = req.body;
 
